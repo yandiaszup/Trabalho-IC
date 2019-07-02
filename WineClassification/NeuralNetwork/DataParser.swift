@@ -69,6 +69,7 @@ class DataParser {
     func takeMinAndMaxValues(sequence: [Double]) -> (Double,Double) {
         var maxValue = sequence[0]
         var minValue = sequence[0]
+        
         for value in sequence {
             if value >= maxValue {
                 maxValue = value

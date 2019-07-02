@@ -30,12 +30,12 @@ class Layer {
     }
     
     // main init
-    init(previousLayer: Layer? = nil, numNeurons: Int, activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double)-> Double, learningRate: Double, hasBias: Bool = false) {
+    init(previousLayer: Layer? = nil, numNeurons: Int, activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double)-> Double, learningRate: Double, momentum: Double,  hasBias: Bool = false) {
         self.previousLayer = previousLayer
         self.neurons = Array<Neuron>()
         self.hasBias = hasBias
         for _ in 0..<numNeurons {
-            self.neurons.append(Neuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0), activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate))
+            self.neurons.append(Neuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0), activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate, momentum: momentum))
         }
         if hasBias {
             self.neurons.append(BiasNeuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0)))
@@ -60,12 +60,13 @@ class Layer {
     }
     
     // should not be called on output layer
+    //Delta with momentum
     func calculateDeltasForHiddenLayer(nextLayer: Layer) {
         for (index, neuron) in neurons.enumerated() {
             let nextWeights = nextLayer.neurons.map { $0.weights[index] }
             let nextDeltas = nextLayer.neurons.map { $0.delta }
             let sumOfWeightsXDeltas = dotProduct(nextWeights, nextDeltas)
-            neuron.delta = neuron.derivativeActivationFunction( neuron.inputCache) * sumOfWeightsXDeltas
+            neuron.delta = neuron.learningRate * neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXDeltas + (neuron.momentum * neuron.delta)
         }
     }
     

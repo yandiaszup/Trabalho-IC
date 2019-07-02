@@ -7,14 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E74CF58422C3F0EA00468A57 /* Neuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF57F22C3F0E900468A57 /* Neuron.swift */; };
+		E74CF58522C3F0EA00468A57 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58022C3F0E900468A57 /* Functions.swift */; };
+		E74CF58622C3F0EA00468A57 /* BiasNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58122C3F0E900468A57 /* BiasNeuron.swift */; };
+		E74CF58722C3F0EA00468A57 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58222C3F0EA00468A57 /* Layer.swift */; };
+		E74CF58822C3F0EA00468A57 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58322C3F0EA00468A57 /* Network.swift */; };
 		E7C5860522C1B3A40075ECD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */; };
 		E7C5860722C1B3A40075ECD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5860622C1B3A40075ECD0 /* ViewController.swift */; };
 		E7C5860A22C1B3A40075ECD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860822C1B3A40075ECD0 /* Main.storyboard */; };
 		E7C5860C22C1B3A60075ECD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */; };
 		E7C5860F22C1B3A60075ECD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860D22C1B3A60075ECD0 /* LaunchScreen.storyboard */; };
+		E7C5861722C1B3C50075ECD0 /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5861622C1B3C50075ECD0 /* NeuralNetwork.swift */; };
+		E7C5861B22C1C1A50075ECD0 /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = E7C5861A22C1C1A50075ECD0 /* test.txt */; };
+		E7C5861D22C29D570075ECD0 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5861C22C29D570075ECD0 /* DataParser.swift */; };
+		E7C5861F22C3B2340075ECD0 /* WineClassificator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E74CF57F22C3F0E900468A57 /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
+		E74CF58022C3F0E900468A57 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		E74CF58122C3F0E900468A57 /* BiasNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiasNeuron.swift; sourceTree = "<group>"; };
+		E74CF58222C3F0EA00468A57 /* Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
+		E74CF58322C3F0EA00468A57 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		E7C5860122C1B3A40075ECD0 /* WineClassification.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WineClassification.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C5860622C1B3A40075ECD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +36,10 @@
 		E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C5860E22C1B3A60075ECD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C5861022C1B3A60075ECD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7C5861622C1B3C50075ECD0 /* NeuralNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
+		E7C5861A22C1C1A50075ECD0 /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		E7C5861C22C29D570075ECD0 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineClassificator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +53,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E74CF58922C40FC700468A57 /* NeuralNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				E7C5861C22C29D570075ECD0 /* DataParser.swift */,
+				E7C5861622C1B3C50075ECD0 /* NeuralNetwork.swift */,
+				E74CF58122C3F0E900468A57 /* BiasNeuron.swift */,
+				E74CF58022C3F0E900468A57 /* Functions.swift */,
+				E74CF58222C3F0EA00468A57 /* Layer.swift */,
+				E74CF58322C3F0EA00468A57 /* Network.swift */,
+				E74CF57F22C3F0E900468A57 /* Neuron.swift */,
+			);
+			path = NeuralNetwork;
+			sourceTree = "<group>";
+		};
 		E7C585F822C1B3A40075ECD0 = {
 			isa = PBXGroup;
 			children = (
@@ -54,8 +86,11 @@
 		E7C5860322C1B3A40075ECD0 /* WineClassification */ = {
 			isa = PBXGroup;
 			children = (
+				E74CF58922C40FC700468A57 /* NeuralNetwork */,
+				E7C5861A22C1C1A50075ECD0 /* test.txt */,
 				E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */,
 				E7C5860622C1B3A40075ECD0 /* ViewController.swift */,
+				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
 				E7C5860822C1B3A40075ECD0 /* Main.storyboard */,
 				E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */,
 				E7C5860D22C1B3A60075ECD0 /* LaunchScreen.storyboard */,
@@ -124,6 +159,7 @@
 			files = (
 				E7C5860F22C1B3A60075ECD0 /* LaunchScreen.storyboard in Resources */,
 				E7C5860C22C1B3A60075ECD0 /* Assets.xcassets in Resources */,
+				E7C5861B22C1C1A50075ECD0 /* test.txt in Resources */,
 				E7C5860A22C1B3A40075ECD0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,8 +171,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E74CF58822C3F0EA00468A57 /* Network.swift in Sources */,
 				E7C5860722C1B3A40075ECD0 /* ViewController.swift in Sources */,
+				E74CF58622C3F0EA00468A57 /* BiasNeuron.swift in Sources */,
 				E7C5860522C1B3A40075ECD0 /* AppDelegate.swift in Sources */,
+				E7C5861D22C29D570075ECD0 /* DataParser.swift in Sources */,
+				E74CF58522C3F0EA00468A57 /* Functions.swift in Sources */,
+				E7C5861F22C3B2340075ECD0 /* WineClassificator.swift in Sources */,
+				E74CF58722C3F0EA00468A57 /* Layer.swift in Sources */,
+				E74CF58422C3F0EA00468A57 /* Neuron.swift in Sources */,
+				E7C5861722C1B3C50075ECD0 /* NeuralNetwork.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
