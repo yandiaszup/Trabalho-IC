@@ -36,7 +36,7 @@ class DataParser {
         }
     }
     
-    func normalize(dataSet: [[Double]]) -> [[Double]]{
+    func normalize(dataSet: [[Double]]) -> [[Double]] {
         
         var normalizedDataSet = dataSet
         

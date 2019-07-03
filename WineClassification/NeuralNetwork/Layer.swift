@@ -53,6 +53,7 @@ class Layer {
     }
     
     // should only be called on an output layer
+    //erro expected[n] - outputCache[n]
     func calculateDeltasForOutputLayer(expected: [Double]) {
         for n in 0..<neurons.count {
             neurons[n].delta = neurons[n].derivativeActivationFunction( neurons[n].inputCache) * (expected[n] - outputCache[n])
@@ -69,6 +70,4 @@ class Layer {
             neuron.delta = neuron.learningRate * neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXDeltas + (neuron.momentum * neuron.delta)
         }
     }
-    
-    
 }
