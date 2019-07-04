@@ -74,20 +74,24 @@ class Network {
     /// train() uses the results of outputs() run over
     /// many *inputs* and compared against *expecteds* to feed
     /// backPropagate() and updateWeights()
-    func train(inputs:[[Double]], expecteds:[[Double]], printError:Bool = true) {
+    func train(inputs:[[Double]], expecteds:[[Double]], printError:Bool = true) -> Double{
+        var err: Double = 0.0
         for (location, xs) in inputs.enumerated() {
             let ys = expecteds[location]
             let outs = outputs(input: xs)
             if (printError) {
-                if location == 0 {
+                if location == 1 {
                     let diff = sub(x: outs, y: ys)
-                    let error = sqrt(sum(x: mul(x: diff, y: diff)))
-                    print("\(error)")
+                    let error = sum(x: mul(x: diff, y: diff))
+                    err += error
+//                    print("\(error)")
                 }
             }
             backPropagate(expected: ys)
             updateWeights()
         }
+        err = sqrt(err) / Double(inputs.count)
+        return err
     }
     
     
@@ -134,11 +138,19 @@ class Network {
     func printCurrentWeights() {
         print("\n\n\n----------------Hidden Layer Weights----------------\n\n\n")
         self.layers[1].neurons.forEach { (neuron) in
-            print(neuron.weights)
+            print("N: ", terminator: "")
+            neuron.weights.forEach({ (weight) in
+                print(String(format: "%.4f, ", weight), terminator: "")
+            })
+            print("\n")
         }
         print("\n\n\n----------------Output Layer Weights----------------\n\n\n")
         self.layers[2].neurons.forEach { (neuron) in
-            print(neuron.weights)
+            print("N: ", terminator: "")
+            neuron.weights.forEach({ (weight) in
+                print(String(format: "%.4f, ", weight), terminator: "")
+            })
+            print("\n")
         }
     }
 }

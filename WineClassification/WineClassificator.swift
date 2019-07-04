@@ -6,25 +6,26 @@
 ////  Copyright © 2019 Yan lucas damasceno dias. All rights reserved.
 ////
 //
-//import Foundation
-//
+import Foundation
+
 
 class WineClassificator {
     
     let dataParser = DataParser()
     
-    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.2, momentum: 0.7, hasBias: true)
+    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.9, hasBias: true)
+    
+    var network2: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.0, hasBias: true)
     
     // for training
     var wineParameters: [[Double]] = [[Double]]()
     var wineClassifications: [[Double]] = [[Double]]()
-    
-    let numberOfIteractions = 700
+
     
     var outputs = [Double]()
     
-    
-    func trainNeuralNetwork() {
+    func start(maxError: Double) {
+        self.setInitialWeightsForSecondNetwork()
         
         guard let wineData = dataParser.parseData() else {
             return
@@ -33,23 +34,72 @@ class WineClassificator {
         splitWineData(data: wineData)
         wineClassifications = createTargetOutputVectors(outputs: outputs)
         
-        for _ in 0...numberOfIteractions {
-            network.train(inputs: wineParameters, expecteds: wineClassifications)
+        trainNeuralNetwork(maxError: maxError)
+        trainNeuralNetworkWithouMomentum(maxError: maxError)
+        
+    }
+    
+    func trainNeuralNetworkWithouMomentum(maxError: Double) {
+        var error = Double.infinity
+        var firstError = 0.0
+        var numberOfCicles = 0
+        
+        let start = DispatchTime.now()
+        while (error > maxError) {
+            error = network2.train(inputs: wineParameters, expecteds: wineClassifications)
+            if numberOfCicles == 0 {
+                firstError = error
+            }
+            numberOfCicles += 1
+//            print(error)
+        }
+        let end = DispatchTime.now()
+        let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+        
+        print("\n\nBackpropagation without momentum benchmark")
+        print("Number of cicles \(numberOfCicles)")
+        print("Number of epochs \(numberOfCicles * wineParameters.count)")
+        print("First EQM \(firstError)")
+        print("Final EQM \(error)")
+        print("Training time: \(Double(nanoTime)/1000000000) seconds")
+        
+    }
+    
+    func setInitialWeightsForSecondNetwork() {
+        
+        for i in 0...network2.layers[1].neurons.count-1 {
+            network2.layers[1].neurons[i].weights = network.layers[1].neurons[i].weights
         }
         
+        for i in 0...network2.layers[2].neurons.count-1 {
+            network2.layers[2].neurons[i].weights = network.layers[2].neurons[i].weights
+        }
+    }
+    
+    func trainNeuralNetwork(maxError: Double) {
+        var error = Double.infinity
+        var firstError = 0.0
+        var numberOfCicles = 0
         
+        let start = DispatchTime.now()
+        while (error > maxError) {
+            error = network.train(inputs: wineParameters, expecteds: wineClassifications)
+            if numberOfCicles == 0 {
+                firstError = error
+            }
+            numberOfCicles += 1
+//            print(error)
+        }
+        let end = DispatchTime.now()
+        let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
         
-        network.printCurrentWeights()
+        print("\n\nBackpropagation with momentum benchmark")
+        print("Number of cicles \(numberOfCicles)")
+        print("Number of epochs \(numberOfCicles * wineParameters.count)")
+        print("First EQM \(firstError)")
+        print("Final EQM \(error)")
+        print("Training time: \(Double(nanoTime)/1000000000) seconds")
         
-        let result = network.validate(inputs: wineParameters, expecteds: wineClassifications)
-        print(result.correct)
-        print(result.percentage)
-        print(result.total)
-        
-//        let testInput = [7.6,0.49,0.26,1.6,0.236,10,88,0.9968,3.11,0.8,9.3]
-//
-//        let result1 = network.evaluateWine(input: normalizeInputVector(input: testInput))
-//        print(result1)
     }
     
     
@@ -115,6 +165,4 @@ class WineClassificator {
         }
         return targetOutputVectors
     }
-    
-    
 }

@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let wineClassificator = WineClassificator()
-        wineClassificator.trainNeuralNetwork()
+        wineClassificator.start(maxError: 0.05)
         
     }
 }
