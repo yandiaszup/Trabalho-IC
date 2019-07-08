@@ -13,18 +13,17 @@ class WineClassificator {
     
     let dataParser = DataParser()
     
-    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.9, hasBias: true)
+    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.99, hasBias: true)
     
-    var network2: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.0, hasBias: true)
+    var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.0, hasBias: true)
     
-    // for training
     var wineParameters: [[Double]] = [[Double]]()
     var wineClassifications: [[Double]] = [[Double]]()
 
     
     var outputs = [Double]()
     
-    func start(maxError: Double) {
+    func start(precision: Double) {
         self.setInitialWeightsForSecondNetwork()
         
         guard let wineData = dataParser.parseData() else {
@@ -34,74 +33,55 @@ class WineClassificator {
         splitWineData(data: wineData)
         wineClassifications = createTargetOutputVectors(outputs: outputs)
         
-        trainNeuralNetwork(maxError: maxError)
-        trainNeuralNetworkWithouMomentum(maxError: maxError)
+        print("backpropagation with momentum training results")
+        trainNeuralNetwork(network: network, precision: precision)
+        print("\n\nbackpropagation without momentum training results\n\n")
+        trainNeuralNetwork(network: networkWithouMomentum, precision: precision)
+
+        let result1 = self.network.validate(inputs: wineParameters, expecteds: wineClassifications)
+
+        let result2 = self.networkWithouMomentum.validate(inputs: wineParameters, expecteds: wineClassifications)
+
+        print("\n\ntotal: \(result1.total)\ncorrect: \(result1.correct)\n percentage: \(result1.percentage)\n\n")
+        print("total: \(result2.total)\ncorrect: \(result2.correct)\n percentage: \(result2.percentage)")
+        
         
     }
     
-    func trainNeuralNetworkWithouMomentum(maxError: Double) {
+    func trainNeuralNetwork(network: Network, precision: Double) {
         var error = Double.infinity
-        var firstError = 0.0
         var numberOfCicles = 0
         
+        var lasterror = 0.0
+        var diference = 1.0
+        
         let start = DispatchTime.now()
-        while (error > maxError) {
-            error = network2.train(inputs: wineParameters, expecteds: wineClassifications)
-            if numberOfCicles == 0 {
-                firstError = error
-            }
+        while (diference > precision) {
+            error = network.train(inputs: wineParameters.dropLast(10), expecteds: wineClassifications.dropLast(10))
+            diference = abs(error - lasterror)
+            lasterror = error
             numberOfCicles += 1
 //            print(error)
         }
         let end = DispatchTime.now()
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
         
-        print("\n\nBackpropagation without momentum benchmark")
         print("Number of cicles \(numberOfCicles)")
         print("Number of epochs \(numberOfCicles * wineParameters.count)")
-        print("First EQM \(firstError)")
         print("Final EQM \(error)")
         print("Training time: \(Double(nanoTime)/1000000000) seconds")
-        
     }
     
     func setInitialWeightsForSecondNetwork() {
         
-        for i in 0...network2.layers[1].neurons.count-1 {
-            network2.layers[1].neurons[i].weights = network.layers[1].neurons[i].weights
+        for i in 0...networkWithouMomentum.layers[1].neurons.count-1 {
+            networkWithouMomentum.layers[1].neurons[i].weights = network.layers[1].neurons[i].weights
         }
         
-        for i in 0...network2.layers[2].neurons.count-1 {
-            network2.layers[2].neurons[i].weights = network.layers[2].neurons[i].weights
+        for i in 0...networkWithouMomentum.layers[2].neurons.count-1 {
+            networkWithouMomentum.layers[2].neurons[i].weights = network.layers[2].neurons[i].weights
         }
     }
-    
-    func trainNeuralNetwork(maxError: Double) {
-        var error = Double.infinity
-        var firstError = 0.0
-        var numberOfCicles = 0
-        
-        let start = DispatchTime.now()
-        while (error > maxError) {
-            error = network.train(inputs: wineParameters, expecteds: wineClassifications)
-            if numberOfCicles == 0 {
-                firstError = error
-            }
-            numberOfCicles += 1
-//            print(error)
-        }
-        let end = DispatchTime.now()
-        let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-        
-        print("\n\nBackpropagation with momentum benchmark")
-        print("Number of cicles \(numberOfCicles)")
-        print("Number of epochs \(numberOfCicles * wineParameters.count)")
-        print("First EQM \(firstError)")
-        print("Final EQM \(error)")
-        print("Training time: \(Double(nanoTime)/1000000000) seconds")
-        
-    }
-    
     
     
     fileprivate func normalizeInputVector(input: [Double]) -> [Double] {

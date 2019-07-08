@@ -1,25 +1,13 @@
 //
 //  Network.swift
-//  SwiftSimpleNeuralNetwork
+//  WineClassification
 //
-//  Copyright 2016-2019 David Kopec
+//  Created by Yan Dias on 24/06/19.
+//  Copyright © 2019 Yan lucas damasceno dias. All rights reserved.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
 
 import Foundation // for sqrt
 
-/// Represents an entire neural network. From largest to smallest we go
-/// Network -> Layers -> Neurons
 class Network {
     var layers: [Layer]
     
@@ -28,27 +16,24 @@ class Network {
             print("Error: Should be at least 3 layers (1 input, 1 hidden, 1 output)")
         }
         layers = [Layer]()
-        // input layer
+        // Camadas de entrada
         layers.append(Layer(numNeurons: layerStructure[0], activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate, momentum: momentum, hasBias: hasBias))
         
-        // hidden layers
+        // Camadas escondidas
         for x in layerStructure.enumerated() where x.offset != 0 && x.offset != layerStructure.count - 1 {
             layers.append(Layer(previousLayer: layers[x.offset - 1], numNeurons: x.element, activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate, momentum: momentum, hasBias: hasBias))
         }
         
-        // output layer (can't have bias node)
+        // Camada de saida
         layers.append(Layer(previousLayer: layers[layerStructure.count - 2], numNeurons: layerStructure.last!, activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate, momentum: momentum, hasBias: false))
     }
     
-    /// pushes input data to the first layer
-    /// then output from the first as input to the second
-    /// second to the third, etc.
+    /// Processa uma entrada dada
     func outputs(input: [Double]) -> [Double] {
         return layers.reduce(input) { $1.outputs(inputs: $0) }
     }
     
-    /// Figure out each neuron's changes based on the errors
-    /// of the output versus the expected outcome
+    /// Calcula os deltas de cada neuronio
     func backPropagate(expected: [Double]) {
         //calculate delta for output layer neurons
         layers.last?.calculateDeltasForOutputLayer(expected: expected)
@@ -58,9 +43,7 @@ class Network {
         }
     }
     
-    /// backPropagate() doesn't actually change any weights
-    /// this function uses the deltas calculated in backPropagate()
-    /// to actually make changes to the weights
+    /// Corrige os pesos dos neuronios a partir do delta
     func updateWeights() {
         for layer in layers.dropFirst() { // skip input layer
             for neuron in layer.neurons {
@@ -71,26 +54,24 @@ class Network {
         }
     }
     
-    /// train() uses the results of outputs() run over
-    /// many *inputs* and compared against *expecteds* to feed
-    /// backPropagate() and updateWeights()
+    /// comeca o processo de trainamento da rede
     func train(inputs:[[Double]], expecteds:[[Double]], printError:Bool = true) -> Double{
         var err: Double = 0.0
         for (location, xs) in inputs.enumerated() {
             let ys = expecteds[location]
             let outs = outputs(input: xs)
             if (printError) {
-                if location == 1 {
                     let diff = sub(x: outs, y: ys)
                     let error = sum(x: mul(x: diff, y: diff))
                     err += error
 //                    print("\(error)")
-                }
+//                }
             }
             backPropagate(expected: ys)
             updateWeights()
         }
-        err = sqrt(err) / Double(inputs.count)
+        err = err / Double(inputs.count)
+//        print(err)
         return err
     }
     
@@ -111,10 +92,7 @@ class Network {
         return outputs
     }
     
-    /// for generalized results that require classification
-    /// this function will return the correct number of trials
-    /// and the percentge correct out of the total
-    /// See the unit tests for some examples
+    /// Valida um conjunto de amostras
     func validate(inputs:[[Double]], expecteds:[[Double]]) -> (correct: Int, total: Int, percentage: Double) {
         var correct = 0
         for (input, expected) in zip(inputs, expecteds) {

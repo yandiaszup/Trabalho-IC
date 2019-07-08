@@ -1,23 +1,12 @@
 //
 //  Neuron.swift
-//  SwiftSimpleNeuralNetwork
+//  WineClassification
 //
-//  Copyright 2016-2019 David Kopec
+//  Created by Yan Dias on 24/06/19.
+//  Copyright © 2019 Yan lucas damasceno dias. All rights reserved.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
 
 
-/// An individual node in a layer
 class Neuron {
     var weights: [Double]
     var activationFunction: (Double) -> Double
@@ -35,8 +24,7 @@ class Neuron {
         self.momentum = momentum
     }
     
-    /// The output that will be going to the next layer
-    /// or the final output if this is an output layer
+    // Calcula saida do neuronio baseado nas entradas
     func output(inputs: [Double]) -> Double {
         inputCache = dotProduct(inputs, weights)
         return activationFunction(inputCache)

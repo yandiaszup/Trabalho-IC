@@ -1,20 +1,10 @@
 //
 //  Functions.swift
-//  SwiftSimpleNeuralNetwork
+//  WineClassification
 //
-//  Copyright 2016-2019 David Kopec
+//  Created by Yan Dias on 24/06/19.
+//  Copyright © 2019 Yan lucas damasceno dias. All rights reserved.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
 
 
 import Accelerate
@@ -39,27 +29,12 @@ extension Sequence where Iterator.Element : Comparable {
     }
 }
 
-/// assumes all rows are of equal length
-/// and divide each column by its max throughout the data set
-/// for that column
-func normalizeByColumnMax( dataset:inout [[Double]]) {
-    for colNum in 0..<dataset[0].count {
-        let column = dataset.map { $0[colNum] }
-        let maximum = column.max()!
-        for rowNum in 0..<dataset.count {
-            dataset[rowNum][colNum] = dataset[rowNum][colNum] / maximum
-        }
-    }
-}
+// MARK: Funcao de ativacao e sua derivada
 
-// MARK: Activation Functions and Their Derivatives
-
-/// the classic sigmoid activation function
 func sigmoid(_ x: Double) -> Double {
     return 1.0 / (1.0 + exp(-x))
 }
 
-// as derived at http://www.ai.mit.edu/courses/6.892/lecture8-html/sld015.htm
 func derivativeSigmoid(_ x: Double) -> Double {
     let sigRes = sigmoid(x)
     return sigRes * (1 - sigRes)

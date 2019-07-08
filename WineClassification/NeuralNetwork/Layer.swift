@@ -1,20 +1,10 @@
 //
 //  Layer.swift
-//  SwiftSimpleNeuralNetwork
+//  WineClassification
 //
-//  Copyright 2016-2019 David Kopec
+//  Created by Yan Dias on 24/06/19.
+//  Copyright © 2019 Yan lucas damasceno dias. All rights reserved.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
 
 class Layer {
     let previousLayer: Layer?
@@ -22,14 +12,12 @@ class Layer {
     var outputCache: [Double]
     var hasBias: Bool = false
     
-    // for future use in deserializing networks
     init(previousLayer: Layer? = nil, neurons: [Neuron] = [Neuron]()) {
         self.previousLayer = previousLayer
         self.neurons = neurons
         self.outputCache = Array<Double>(repeating: 0.0, count: neurons.count)
     }
     
-    // main init
     init(previousLayer: Layer? = nil, numNeurons: Int, activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double)-> Double, learningRate: Double, momentum: Double,  hasBias: Bool = false) {
         self.previousLayer = previousLayer
         self.neurons = Array<Neuron>()
@@ -44,24 +32,22 @@ class Layer {
     }
     
     func outputs(inputs: [Double]) -> [Double] {
-        if previousLayer == nil { // input layer (first layer)
+        if previousLayer == nil { // camada de entrada
             outputCache = hasBias ? inputs + [1.0] : inputs
-        } else { // hidden layer or output layer
+        } else { // Camada de saida ou escondida
             outputCache = neurons.map { $0.output(inputs: inputs) }
         }
         return outputCache
     }
     
-    // should only be called on an output layer
-    //erro expected[n] - outputCache[n]
+    // Calcula deltas para camada de saida
     func calculateDeltasForOutputLayer(expected: [Double]) {
         for n in 0..<neurons.count {
             neurons[n].delta = neurons[n].derivativeActivationFunction( neurons[n].inputCache) * (expected[n] - outputCache[n])
         }
     }
     
-    // should not be called on output layer
-    //Delta with momentum
+    // Calcula os deltas para camadas escondidas
     func calculateDeltasForHiddenLayer(nextLayer: Layer) {
         for (index, neuron) in neurons.enumerated() {
             let nextWeights = nextLayer.neurons.map { $0.weights[index] }

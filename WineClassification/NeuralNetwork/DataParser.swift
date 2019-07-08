@@ -13,7 +13,7 @@ class DataParser {
     var minMax = [(Double,Double)]()
     
     func parseData() -> [[Double]]? {
-        let path = Bundle.main.path(forResource: "test", ofType: "txt") ?? ""
+        let path = Bundle.main.path(forResource: "training", ofType: "txt") ?? ""
         
         do {
             let text2 = try String(contentsOfFile: path, encoding: .utf8)

@@ -17,7 +17,7 @@
 		E7C5860A22C1B3A40075ECD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860822C1B3A40075ECD0 /* Main.storyboard */; };
 		E7C5860C22C1B3A60075ECD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */; };
 		E7C5860F22C1B3A60075ECD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C5860D22C1B3A60075ECD0 /* LaunchScreen.storyboard */; };
-		E7C5861B22C1C1A50075ECD0 /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = E7C5861A22C1C1A50075ECD0 /* test.txt */; };
+		E7C5861B22C1C1A50075ECD0 /* training.txt in Resources */ = {isa = PBXBuildFile; fileRef = E7C5861A22C1C1A50075ECD0 /* training.txt */; };
 		E7C5861D22C29D570075ECD0 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5861C22C29D570075ECD0 /* DataParser.swift */; };
 		E7C5861F22C3B2340075ECD0 /* WineClassificator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +35,7 @@
 		E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C5860E22C1B3A60075ECD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C5861022C1B3A60075ECD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E7C5861A22C1C1A50075ECD0 /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		E7C5861A22C1C1A50075ECD0 /* training.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = training.txt; sourceTree = "<group>"; };
 		E7C5861C22C29D570075ECD0 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineClassificator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				E74CF58922C40FC700468A57 /* NeuralNetwork */,
-				E7C5861A22C1C1A50075ECD0 /* test.txt */,
+				E7C5861A22C1C1A50075ECD0 /* training.txt */,
 				E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */,
 				E7C5860622C1B3A40075ECD0 /* ViewController.swift */,
 				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
@@ -156,7 +156,7 @@
 			files = (
 				E7C5860F22C1B3A60075ECD0 /* LaunchScreen.storyboard in Resources */,
 				E7C5860C22C1B3A60075ECD0 /* Assets.xcassets in Resources */,
-				E7C5861B22C1C1A50075ECD0 /* test.txt in Resources */,
+				E7C5861B22C1C1A50075ECD0 /* training.txt in Resources */,
 				E7C5860A22C1B3A40075ECD0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
