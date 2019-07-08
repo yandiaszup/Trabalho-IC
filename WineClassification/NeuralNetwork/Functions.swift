@@ -40,6 +40,13 @@ func derivativeSigmoid(_ x: Double) -> Double {
     return sigRes * (1 - sigRes)
 }
 
+func relu(_ x: Double) -> Double {
+    return max(x, 0)
+}
+
+func derivateRelu(_ x: Double) -> Double {
+    return x >= 0 ? 1 : 0
+}
 // MARK: SIMD Accelerated Math
 
 // Based on example from Surge project

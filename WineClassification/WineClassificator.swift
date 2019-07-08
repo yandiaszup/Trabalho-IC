@@ -84,18 +84,6 @@ class WineClassificator {
     }
     
     
-    fileprivate func normalizeInputVector(input: [Double]) -> [Double] {
-        var normalizedInput = [Double]()
-        let minMaxList = dataParser.minMax
-        for i in 0...10 {
-            let value = input[i]
-            let normalizedValue = dataParser.normalizedValue(value: value, maxValue: minMaxList[i].1, minValue: minMaxList[i].0)
-            normalizedInput.append(normalizedValue)
-        }
-        return normalizedInput
-    }
-    
-    
     fileprivate func splitWineData(data: [[Double]]) {
         for x in data {
             var atributes = x
