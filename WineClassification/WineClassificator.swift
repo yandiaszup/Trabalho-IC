@@ -13,9 +13,9 @@ class WineClassificator {
     
     let dataParser = DataParser()
     
-    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.99, hasBias: true)
+    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.58, hasBias: true)
     
-    var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.1, momentum: 0.0, hasBias: true)
+    var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.0, hasBias: true)
     
     var wineParameters: [[Double]] = [[Double]]()
     var wineClassifications: [[Double]] = [[Double]]()
@@ -57,7 +57,7 @@ class WineClassificator {
         
         let start = DispatchTime.now()
         while (diference > precision) {
-            error = network.train(inputs: wineParameters.dropLast(10), expecteds: wineClassifications.dropLast(10))
+            error = network.train(inputs: wineParameters.dropLast(15), expecteds: wineClassifications.dropLast(15))
             diference = abs(error - lasterror)
             lasterror = error
             numberOfCicles += 1
