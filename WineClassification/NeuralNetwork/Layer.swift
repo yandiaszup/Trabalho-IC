@@ -43,7 +43,9 @@ class Layer {
     // Calcula deltas para camada de saida
     func calculateDeltasForOutputLayer(expected: [Double]) {
         for n in 0..<neurons.count {
-            neurons[n].delta = neurons[n].derivativeActivationFunction( neurons[n].inputCache) * (expected[n] - outputCache[n])
+            let error = (expected[n] - neurons[n].activationFunction(neurons[n].inputCache))
+            let gradient = neurons[n].derivativeActivationFunction(neurons[n].inputCache) * error
+            neurons[n].delta = gradient
         }
     }
     
@@ -53,7 +55,8 @@ class Layer {
             let nextWeights = nextLayer.neurons.map { $0.weights[index] }
             let nextDeltas = nextLayer.neurons.map { $0.delta }
             let sumOfWeightsXDeltas = dotProduct(nextWeights, nextDeltas)
-            neuron.delta = neuron.learningRate * neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXDeltas + (neuron.momentum * neuron.delta)
+            let gradient = neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXDeltas
+            neuron.delta = gradient
         }
     }
 }

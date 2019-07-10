@@ -48,7 +48,9 @@ class Network {
         for layer in layers.dropFirst() { // skip input layer
             for neuron in layer.neurons {
                 for w in 0..<neuron.weights.count {
-                    neuron.weights[w] = neuron.weights[w] + ((layer.previousLayer?.outputCache[w])! * neuron.delta)
+                    let delta = ((layer.previousLayer?.outputCache[w])! * neuron.delta * neuron.learningRate) + (neuron.momentum * neuron.lastDelta)
+                    neuron.lastDelta = delta
+                    neuron.weights[w] = neuron.weights[w] + delta
                 }
             }
         }

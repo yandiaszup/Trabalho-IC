@@ -13,7 +13,7 @@ class WineClassificator {
     
     let dataParser = DataParser()
     
-    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.58, hasBias: true)
+    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.6, hasBias: true)
     
     var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.0, hasBias: true)
     
@@ -67,7 +67,7 @@ class WineClassificator {
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
         
         print("Number of cicles \(numberOfCicles)")
-        print("Number of epochs \(numberOfCicles * wineParameters.count)")
+        print("Number of epochs \(numberOfCicles * wineParameters.dropLast(15).count)")
         print("Final EQM \(error)")
         print("Training time: \(Double(nanoTime)/1000000000) seconds")
     }

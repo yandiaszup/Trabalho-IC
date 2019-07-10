@@ -12,6 +12,7 @@ class Neuron {
     var activationFunction: (Double) -> Double
     var derivativeActivationFunction: (Double) -> Double
     var inputCache: Double = 0.0
+    var lastDelta: Double = 0.0
     var delta: Double = 0.0
     var learningRate: Double
     var momentum: Double
