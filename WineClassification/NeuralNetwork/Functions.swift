@@ -47,6 +47,7 @@ func relu(_ x: Double) -> Double {
 func derivateRelu(_ x: Double) -> Double {
     return x >= 0 ? 1 : 0
 }
+
 // MARK: SIMD Accelerated Math
 
 // Based on example from Surge project

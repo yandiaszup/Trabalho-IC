@@ -12,13 +12,16 @@ class Neuron {
     var activationFunction: (Double) -> Double
     var derivativeActivationFunction: (Double) -> Double
     var inputCache: Double = 0.0
-    var lastDelta: Double = 0.0
-    var delta: Double = 0.0
+    var lastDelta = [Double]()
+    var gradient: Double = 0.0
     
     init(weights: [Double], activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double) -> Double) {
         self.weights = weights
         self.activationFunction = activationFunction
         self.derivativeActivationFunction = derivativeActivationFunction
+        for _ in 0...weights.count {
+            lastDelta.append(0.0)
+        }
     }
     
     // Calcula saida do neuronio baseado nas entradas
@@ -26,5 +29,4 @@ class Neuron {
         inputCache = dotProduct(inputs, weights)
         return activationFunction(inputCache)
     }
-    
 }

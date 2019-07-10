@@ -38,23 +38,22 @@ class Network {
         return layers.reduce(input) { $1.outputs(inputs: $0) }
     }
     
-    /// Calcula os deltas de cada neuronio
+    /// Calcula o gradiente de cada neuronio
     func backPropagate(expected: [Double]) {
-        //calculate delta for output layer neurons
         layers.last?.calculateDeltasForOutputLayer(expected: expected)
-        //calculate delta for prior layers
+        
         for l in (1..<layers.count - 1).reversed() { // skip input layer
             layers[l].calculateDeltasForHiddenLayer(nextLayer: layers[l + 1])
         }
     }
     
-    /// Corrige os pesos dos neuronios a partir do delta
+    /// Corrige os pesos dos neuronios a partir do gradiente calculado
     func updateWeights() {
         for layer in layers.dropFirst() { // skip input layer
             for neuron in layer.neurons {
                 for w in 0..<neuron.weights.count {
-                    let delta = ((layer.previousLayer?.outputCache[w])! * neuron.delta * self.learningRate) + (self.momentum * neuron.lastDelta)
-                    neuron.lastDelta = delta
+                    let delta = (self.learningRate * neuron.gradient * (layer.previousLayer?.outputCache[w])!) + (self.momentum * neuron.lastDelta[w])
+                    neuron.lastDelta[w] = delta
                     neuron.weights[w] = neuron.weights[w] + delta
                 }
             }
@@ -62,18 +61,17 @@ class Network {
     }
     
     /// comeca o processo de trainamento da rede
-    func train(inputs:[[Double]], expecteds:[[Double]], printError:Bool = true) -> Double{
+    func train(inputs:[[Double]], expecteds:[[Double]]) -> Double{
         var err: Double = 0.0
         for (location, xs) in inputs.enumerated() {
             let ys = expecteds[location]
             let outs = outputs(input: xs)
-            if (printError) {
-                    let diff = sub(x: outs, y: ys)
-                    let error = sum(x: mul(x: diff, y: diff))
-                    err += error
-//                    print("\(error)")
-//                }
-            }
+            
+            let diff = sub(x: outs, y: ys)
+            let error = sum(x: mul(x: diff, y: diff))
+            err += error
+            //                    print("\(error)")
+        
             backPropagate(expected: ys)
             updateWeights()
         }
@@ -111,15 +109,7 @@ class Network {
         let percentage = Double(correct) / Double(inputs.count)
         return (correct, inputs.count, percentage)
     }
-    
-    func evaluateWine(input:[Double]) -> [Double] {
-        let resultVector = interpretOutput(output: outputs(input: input))
-        
-        let score = interpretOutput(output: resultVector)
-        
-        return score
-    }
-    
+
     func printCurrentWeights() {
         print("\n\n\n----------------Hidden Layer Weights----------------\n\n\n")
         self.layers[1].neurons.forEach { (neuron) in

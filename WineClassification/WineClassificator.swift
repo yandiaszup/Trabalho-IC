@@ -15,18 +15,20 @@ class WineClassificator {
     
     let learningRate = 0.01
     let momentum = 0.7
+    let precision = 0.000001
     
     var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.7, hasBias: true)
     
     var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.0, hasBias: true)
     
+    // Entradas
     var wineParameters: [[Double]] = [[Double]]()
+    // Saidas esperadas
     var wineClassifications: [[Double]] = [[Double]]()
 
-    
     var outputs = [Double]()
     
-    func start(precision: Double) -> (TrainingResults?,TrainingResults?){
+    func start() -> (TrainingResults?,TrainingResults?){
         
         guard let wineData = dataParser.parseData() else {
             return (nil,nil)
@@ -38,9 +40,9 @@ class WineClassificator {
         self.setInitialWeightsForSecondNetwork()
         
         print("backpropagation with momentum training results")
-        let errorListMomentum = trainNeuralNetwork(network: network, precision: precision)
+        let errorListMomentum = trainNeuralNetwork(network: network)
         print("\n\nbackpropagation without momentum training results\n\n")
-        let errorListWithoutMomentum = trainNeuralNetwork(network: networkWithouMomentum, precision: precision)
+        let errorListWithoutMomentum = trainNeuralNetwork(network: networkWithouMomentum)
 
         let result1 = self.network.validate(inputs: wineParameters, expecteds: wineClassifications)
 
@@ -52,7 +54,7 @@ class WineClassificator {
         return (errorListMomentum, errorListWithoutMomentum)
     }
     
-    func trainNeuralNetwork(network: Network, precision: Double) -> TrainingResults{
+    func trainNeuralNetwork(network: Network) -> TrainingResults{
         var error = Double.infinity
         var numberOfCicles = 0
         

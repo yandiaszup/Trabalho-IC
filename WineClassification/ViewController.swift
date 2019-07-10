@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        trainingResults = wineClassificator.start(precision: 0.000001) as! (TrainingResults, TrainingResults)
+        trainingResults = wineClassificator.start() as! (TrainingResults, TrainingResults)
 
         createChart()
         updateTrainingResultsLabel()

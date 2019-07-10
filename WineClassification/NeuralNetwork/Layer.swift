@@ -45,7 +45,7 @@ class Layer {
         for n in 0..<neurons.count {
             let error = (expected[n] - neurons[n].activationFunction(neurons[n].inputCache))
             let gradient = neurons[n].derivativeActivationFunction(neurons[n].inputCache) * error
-            neurons[n].delta = gradient
+            neurons[n].gradient = gradient
         }
     }
     
@@ -53,10 +53,10 @@ class Layer {
     func calculateDeltasForHiddenLayer(nextLayer: Layer) {
         for (index, neuron) in neurons.enumerated() {
             let nextWeights = nextLayer.neurons.map { $0.weights[index] }
-            let nextDeltas = nextLayer.neurons.map { $0.delta }
-            let sumOfWeightsXDeltas = dotProduct(nextWeights, nextDeltas)
-            let gradient = neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXDeltas
-            neuron.delta = gradient
+            let nextGradient = nextLayer.neurons.map { $0.gradient }
+            let sumOfWeightsXGradients = dotProduct(nextWeights, nextGradient)
+            let gradient = neuron.derivativeActivationFunction(neuron.inputCache) * sumOfWeightsXGradients
+            neuron.gradient = gradient
         }
     }
 }
