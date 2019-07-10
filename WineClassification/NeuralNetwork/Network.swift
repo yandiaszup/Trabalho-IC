@@ -10,6 +10,8 @@ import Foundation // for sqrt
 
 class Network {
     var layers: [Layer]
+    var momentum: Double = 0.0
+    var learningRate: Double = 0.0
     
     init(layerStructure:[Int], activationFunctionForHiddenLayer: @escaping (Double) -> Double = relu, activationFunctionForOutputLayer: @escaping (Double) -> Double = sigmoid, derivativeActivationFunctionForHiddenLayer: @escaping (Double) -> Double = derivateRelu, derivativeActivationFunctionForOutputLayer: @escaping (Double) -> Double = derivativeSigmoid, learningRate: Double = 0.25, momentum: Double, hasBias: Bool = false) {
         if (layerStructure.count < 3) {
@@ -17,15 +19,18 @@ class Network {
         }
         layers = [Layer]()
         // Camadas de entrada
-        layers.append(Layer(numNeurons: layerStructure[0], activationFunction: activationFunctionForHiddenLayer, derivativeActivationFunction: derivativeActivationFunctionForHiddenLayer, learningRate: learningRate, momentum: momentum, hasBias: hasBias))
+        layers.append(Layer(numNeurons: layerStructure[0], activationFunction: activationFunctionForHiddenLayer, derivativeActivationFunction: derivativeActivationFunctionForHiddenLayer, hasBias: hasBias))
         
         // Camadas escondidas
         for x in layerStructure.enumerated() where x.offset != 0 && x.offset != layerStructure.count - 1 {
-            layers.append(Layer(previousLayer: layers[x.offset - 1], numNeurons: x.element, activationFunction: activationFunctionForHiddenLayer, derivativeActivationFunction: derivativeActivationFunctionForHiddenLayer, learningRate: learningRate, momentum: momentum, hasBias: hasBias))
+            layers.append(Layer(previousLayer: layers[x.offset - 1], numNeurons: x.element, activationFunction: activationFunctionForHiddenLayer, derivativeActivationFunction: derivativeActivationFunctionForHiddenLayer, hasBias: hasBias))
         }
         
         // Camada de saida
-        layers.append(Layer(previousLayer: layers[layerStructure.count - 2], numNeurons: layerStructure.last!, activationFunction: activationFunctionForOutputLayer, derivativeActivationFunction: derivativeActivationFunctionForOutputLayer, learningRate: learningRate, momentum: momentum, hasBias: false))
+        layers.append(Layer(previousLayer: layers[layerStructure.count - 2], numNeurons: layerStructure.last!, activationFunction: activationFunctionForOutputLayer, derivativeActivationFunction: derivativeActivationFunctionForOutputLayer, hasBias: false))
+        
+        self.learningRate = learningRate
+        self.momentum = momentum
     }
     
     /// Processa uma entrada dada
@@ -48,7 +53,7 @@ class Network {
         for layer in layers.dropFirst() { // skip input layer
             for neuron in layer.neurons {
                 for w in 0..<neuron.weights.count {
-                    let delta = ((layer.previousLayer?.outputCache[w])! * neuron.delta * neuron.learningRate) + (neuron.momentum * neuron.lastDelta)
+                    let delta = ((layer.previousLayer?.outputCache[w])! * neuron.delta * self.learningRate) + (self.momentum * neuron.lastDelta)
                     neuron.lastDelta = delta
                     neuron.weights[w] = neuron.weights[w] + delta
                 }

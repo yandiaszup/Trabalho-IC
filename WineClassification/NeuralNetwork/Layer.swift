@@ -18,12 +18,12 @@ class Layer {
         self.outputCache = Array<Double>(repeating: 0.0, count: neurons.count)
     }
     
-    init(previousLayer: Layer? = nil, numNeurons: Int, activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double)-> Double, learningRate: Double, momentum: Double,  hasBias: Bool = false) {
+    init(previousLayer: Layer? = nil, numNeurons: Int, activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double)-> Double, hasBias: Bool = false) {
         self.previousLayer = previousLayer
         self.neurons = Array<Neuron>()
         self.hasBias = hasBias
         for _ in 0..<numNeurons {
-            self.neurons.append(Neuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0), activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction, learningRate: learningRate, momentum: momentum))
+            self.neurons.append(Neuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0), activationFunction: activationFunction, derivativeActivationFunction: derivativeActivationFunction))
         }
         if hasBias {
             self.neurons.append(BiasNeuron(weights: randomWeights(number: previousLayer?.neurons.count ?? 0)))

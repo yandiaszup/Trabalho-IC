@@ -14,15 +14,11 @@ class Neuron {
     var inputCache: Double = 0.0
     var lastDelta: Double = 0.0
     var delta: Double = 0.0
-    var learningRate: Double
-    var momentum: Double
     
-    init(weights: [Double], activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double) -> Double, learningRate: Double = 0.25, momentum: Double = 0.20) {
+    init(weights: [Double], activationFunction: @escaping (Double) -> Double, derivativeActivationFunction: @escaping (Double) -> Double) {
         self.weights = weights
         self.activationFunction = activationFunction
         self.derivativeActivationFunction = derivativeActivationFunction
-        self.learningRate = learningRate
-        self.momentum = momentum
     }
     
     // Calcula saida do neuronio baseado nas entradas

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6FE27FE549096F2168E14750 /* Pods_WineClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187A05628935D1A800A0CEDC /* Pods_WineClassification.framework */; };
 		E74CF58422C3F0EA00468A57 /* Neuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF57F22C3F0E900468A57 /* Neuron.swift */; };
 		E74CF58522C3F0EA00468A57 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58022C3F0E900468A57 /* Functions.swift */; };
 		E74CF58622C3F0EA00468A57 /* BiasNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74CF58122C3F0E900468A57 /* BiasNeuron.swift */; };
@@ -23,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		187A05628935D1A800A0CEDC /* Pods_WineClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WineClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56A9C123E20DC640C5A1BC41 /* Pods-WineClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WineClassification.debug.xcconfig"; path = "Target Support Files/Pods-WineClassification/Pods-WineClassification.debug.xcconfig"; sourceTree = "<group>"; };
+		A38CDC8B5DFD45505BDED899 /* Pods-WineClassification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WineClassification.release.xcconfig"; path = "Target Support Files/Pods-WineClassification/Pods-WineClassification.release.xcconfig"; sourceTree = "<group>"; };
 		E74CF57F22C3F0E900468A57 /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
 		E74CF58022C3F0E900468A57 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		E74CF58122C3F0E900468A57 /* BiasNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiasNeuron.swift; sourceTree = "<group>"; };
@@ -45,12 +49,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FE27FE549096F2168E14750 /* Pods_WineClassification.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3EE686EEF9B9FB99F1F9EBEE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				187A05628935D1A800A0CEDC /* Pods_WineClassification.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F684ADC0C106328EC911ECB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				56A9C123E20DC640C5A1BC41 /* Pods-WineClassification.debug.xcconfig */,
+				A38CDC8B5DFD45505BDED899 /* Pods-WineClassification.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E74CF58922C40FC700468A57 /* NeuralNetwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +92,8 @@
 			children = (
 				E7C5860322C1B3A40075ECD0 /* WineClassification */,
 				E7C5860222C1B3A40075ECD0 /* Products */,
+				5F684ADC0C106328EC911ECB /* Pods */,
+				3EE686EEF9B9FB99F1F9EBEE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,9 +128,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7C5861322C1B3A60075ECD0 /* Build configuration list for PBXNativeTarget "WineClassification" */;
 			buildPhases = (
+				9CEF71485BDFD8553EA3AD84 /* [CP] Check Pods Manifest.lock */,
 				E7C585FD22C1B3A40075ECD0 /* Sources */,
 				E7C585FE22C1B3A40075ECD0 /* Frameworks */,
 				E7C585FF22C1B3A40075ECD0 /* Resources */,
+				E84AF3C76F0439B28760D10E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -162,6 +189,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9CEF71485BDFD8553EA3AD84 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WineClassification-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E84AF3C76F0439B28760D10E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WineClassification/Pods-WineClassification-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WineClassification/Pods-WineClassification-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WineClassification/Pods-WineClassification-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E7C585FD22C1B3A40075ECD0 /* Sources */ = {
@@ -320,6 +389,7 @@
 		};
 		E7C5861422C1B3A60075ECD0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 56A9C123E20DC640C5A1BC41 /* Pods-WineClassification.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -338,6 +408,7 @@
 		};
 		E7C5861522C1B3A60075ECD0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A38CDC8B5DFD45505BDED899 /* Pods-WineClassification.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

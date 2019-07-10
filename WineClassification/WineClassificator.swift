@@ -13,7 +13,10 @@ class WineClassificator {
     
     let dataParser = DataParser()
     
-    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.6, hasBias: true)
+    let learningRate = 0.01
+    let momentum = 0.7
+    
+    var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.7, hasBias: true)
     
     var networkWithouMomentum: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.0, hasBias: true)
     
@@ -23,20 +26,21 @@ class WineClassificator {
     
     var outputs = [Double]()
     
-    func start(precision: Double) {
-        self.setInitialWeightsForSecondNetwork()
+    func start(precision: Double) -> (TrainingResults?,TrainingResults?){
         
         guard let wineData = dataParser.parseData() else {
-            return
+            return (nil,nil)
         }
         
         splitWineData(data: wineData)
         wineClassifications = createTargetOutputVectors(outputs: outputs)
         
+        self.setInitialWeightsForSecondNetwork()
+        
         print("backpropagation with momentum training results")
-        trainNeuralNetwork(network: network, precision: precision)
+        let errorListMomentum = trainNeuralNetwork(network: network, precision: precision)
         print("\n\nbackpropagation without momentum training results\n\n")
-        trainNeuralNetwork(network: networkWithouMomentum, precision: precision)
+        let errorListWithoutMomentum = trainNeuralNetwork(network: networkWithouMomentum, precision: precision)
 
         let result1 = self.network.validate(inputs: wineParameters, expecteds: wineClassifications)
 
@@ -45,15 +49,17 @@ class WineClassificator {
         print("\n\ntotal: \(result1.total)\ncorrect: \(result1.correct)\n percentage: \(result1.percentage)\n\n")
         print("total: \(result2.total)\ncorrect: \(result2.correct)\n percentage: \(result2.percentage)")
         
-        
+        return (errorListMomentum, errorListWithoutMomentum)
     }
     
-    func trainNeuralNetwork(network: Network, precision: Double) {
+    func trainNeuralNetwork(network: Network, precision: Double) -> TrainingResults{
         var error = Double.infinity
         var numberOfCicles = 0
         
         var lasterror = 0.0
         var diference = 1.0
+        
+        var errorList = [Double]()
         
         let start = DispatchTime.now()
         while (diference > precision) {
@@ -61,6 +67,7 @@ class WineClassificator {
             diference = abs(error - lasterror)
             lasterror = error
             numberOfCicles += 1
+            errorList.append(error)
 //            print(error)
         }
         let end = DispatchTime.now()
@@ -70,14 +77,17 @@ class WineClassificator {
         print("Number of epochs \(numberOfCicles * wineParameters.dropLast(15).count)")
         print("Final EQM \(error)")
         print("Training time: \(Double(nanoTime)/1000000000) seconds")
-    }
-    
-    func setInitialWeightsForSecondNetwork() {
         
+        let trainingResults = TrainingResults(numberOfCicles: numberOfCicles, numberOfEpochs: numberOfCicles * wineParameters.dropLast(15).count, finalEQM: error, trainingTime: Double(nanoTime)/1000000000, errorList: errorList)
+        
+        return trainingResults
+    }
+
+    func setInitialWeightsForSecondNetwork() {
         for i in 0...networkWithouMomentum.layers[1].neurons.count-1 {
             networkWithouMomentum.layers[1].neurons[i].weights = network.layers[1].neurons[i].weights
         }
-        
+
         for i in 0...networkWithouMomentum.layers[2].neurons.count-1 {
             networkWithouMomentum.layers[2].neurons[i].weights = network.layers[2].neurons[i].weights
         }
@@ -132,5 +142,21 @@ class WineClassificator {
             }
         }
         return targetOutputVectors
+    }
+}
+
+class TrainingResults {
+    let numberOfCicles: Int!
+    let numberOfEpochs: Int!
+    let finalEQM: Double!
+    let trainingTime: Double!
+    let errorList: [Double]!
+    
+    init(numberOfCicles : Int, numberOfEpochs: Int, finalEQM: Double, trainingTime: Double, errorList: [Double]) {
+        self.numberOfCicles = numberOfCicles
+        self.numberOfEpochs = numberOfEpochs
+        self.finalEQM = finalEQM
+        self.trainingTime = trainingTime
+        self.errorList = errorList
     }
 }
