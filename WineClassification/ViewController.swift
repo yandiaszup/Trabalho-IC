@@ -53,8 +53,9 @@ class ViewController: UIViewController {
         
         chart.drawGridBackgroundEnabled = false
         chart.drawBordersEnabled = false
-        chart.dragEnabled = false
-        chart.isUserInteractionEnabled = false
+        chart.dragEnabled = true
+        chart.pinchZoomEnabled = true
+        chart.isUserInteractionEnabled = true
         
         
         
