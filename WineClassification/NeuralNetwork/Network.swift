@@ -33,12 +33,12 @@ class Network {
         self.momentum = momentum
     }
     
-    /// Processa uma entrada dada
+    /// Processa uma entrada dada e retorna a saida do pmc
     func outputs(input: [Double]) -> [Double] {
         return layers.reduce(input) { $1.outputs(inputs: $0) }
     }
     
-    /// Calcula o gradiente de cada neuronio
+    /// Backpropagation inicia pela camada de saida ate a primeira camada escondida
     func backPropagate(expected: [Double]) {
         layers.last?.calculateDeltasForOutputLayer(expected: expected)
         
@@ -47,7 +47,7 @@ class Network {
         }
     }
     
-    /// Corrige os pesos dos neuronios a partir do gradiente calculado
+    /// Corrige os pesos dos neuronios a partir do gradiente calculado em backpropagate
     func updateWeights() {
         for layer in layers.dropFirst() { // skip input layer
             for neuron in layer.neurons {
@@ -60,7 +60,7 @@ class Network {
         }
     }
     
-    /// comeca o processo de trainamento da rede
+    // treina a rede para um conjunto de dados dado
     func train(inputs:[[Double]], expecteds:[[Double]]) -> Double{
         var err: Double = 0.0
         for (location, xs) in inputs.enumerated() {
@@ -80,7 +80,7 @@ class Network {
         return err
     }
     
-    
+    // Defuzzy (transforma um vetor de probabilidades em um vetor de 0 e 1)
     func interpretOutput(output: [Double]) -> [Double] {
         var maxValue: Double = 0.0
         var maxValueIndex: Int = 0

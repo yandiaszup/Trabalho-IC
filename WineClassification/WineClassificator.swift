@@ -13,8 +13,7 @@ class WineClassificator {
     
     let dataParser = DataParser()
     
-    let learningRate = 0.01
-    let momentum = 0.7
+    // precisao adotada
     let precision = 0.000001
     
     var network: Network = Network(layerStructure: [11,22,10], learningRate: 0.01, momentum: 0.7, hasBias: true)
@@ -30,30 +29,40 @@ class WineClassificator {
     
     func start() -> (TrainingResults?,TrainingResults?){
         
-        guard let wineData = dataParser.parseData() else {
-            return (nil,nil)
-        }
-        
-        splitWineData(data: wineData)
-        wineClassifications = createTargetOutputVectors(outputs: outputs)
+        fetchWineData()
         
         self.setInitialWeightsForSecondNetwork()
         
         print("backpropagation with momentum training results")
-        let errorListMomentum = trainNeuralNetwork(network: network)
+        let trainingWithMomentumResults = trainNeuralNetwork(network: network)
         print("\n\nbackpropagation without momentum training results\n\n")
-        let errorListWithoutMomentum = trainNeuralNetwork(network: networkWithouMomentum)
+        let trainingWithoutMomentumResults = trainNeuralNetwork(network: networkWithouMomentum)
 
         let result1 = self.network.validate(inputs: wineParameters, expecteds: wineClassifications)
 
         let result2 = self.networkWithouMomentum.validate(inputs: wineParameters, expecteds: wineClassifications)
-
-        print("\n\ntotal: \(result1.total)\ncorrect: \(result1.correct)\n percentage: \(result1.percentage)\n\n")
-        print("total: \(result2.total)\ncorrect: \(result2.correct)\n percentage: \(result2.percentage)")
         
-        return (errorListMomentum, errorListWithoutMomentum)
+        trainingWithMomentumResults.successRate = result1.percentage
+        trainingWithoutMomentumResults.successRate = result2.percentage
+
+
+        print("\nbackpropagation with momentum validation:\ntotal: \(result1.total)\ncorrect: \(result1.correct)\npercentage: \(result1.percentage)\n\nbackpropagation without momentum validation:\n")
+        print("total: \(result2.total)\ncorrect: \(result2.correct)\npercentage: \(result2.percentage)")
+        
+        return (trainingWithMomentumResults, trainingWithoutMomentumResults)
     }
     
+    // pega os valores do arquivo training e os aloca em WineClassifications e WineParameters
+    func fetchWineData() {
+        guard let wineData = dataParser.parseData() else {
+            return
+        }
+        
+        splitWineData(data: wineData)
+        wineClassifications = createTargetOutputVectors(outputs: outputs)
+    }
+    
+    // inicia o processo de treinamento para a rede dada
     func trainNeuralNetwork(network: Network) -> TrainingResults{
         var error = Double.infinity
         var numberOfCicles = 0
@@ -70,7 +79,6 @@ class WineClassificator {
             lasterror = error
             numberOfCicles += 1
             errorList.append(error)
-//            print(error)
         }
         let end = DispatchTime.now()
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
@@ -85,6 +93,7 @@ class WineClassificator {
         return trainingResults
     }
 
+    // torna os pesos iniciais da segunda rede iguais ao da primeira (para comparaca dos algoritmos com momento e sem momento)
     func setInitialWeightsForSecondNetwork() {
         for i in 0...networkWithouMomentum.layers[1].neurons.count-1 {
             networkWithouMomentum.layers[1].neurons[i].weights = network.layers[1].neurons[i].weights
@@ -105,6 +114,7 @@ class WineClassificator {
         }
     }
     
+    // cria vetores que serao usados como valores experados para a rede (transforma uma nota em um vetor)
     fileprivate func createTargetOutputVectors(outputs: [Double]) -> [[Double]] {
         var targetOutputVectors = [[Double]]()
         for output in outputs {
@@ -153,6 +163,7 @@ class TrainingResults {
     let finalEQM: Double!
     let trainingTime: Double!
     let errorList: [Double]!
+    var successRate = 0.0
     
     init(numberOfCicles : Int, numberOfEpochs: Int, finalEQM: Double, trainingTime: Double, errorList: [Double]) {
         self.numberOfCicles = numberOfCicles

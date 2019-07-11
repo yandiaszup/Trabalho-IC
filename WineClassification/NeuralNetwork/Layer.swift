@@ -40,7 +40,7 @@ class Layer {
         return outputCache
     }
     
-    // Calcula deltas para camada de saida
+    // Calcula Gradiente para neuronios da camada de saida
     func calculateDeltasForOutputLayer(expected: [Double]) {
         for n in 0..<neurons.count {
             let error = (expected[n] - neurons[n].activationFunction(neurons[n].inputCache))
@@ -49,7 +49,7 @@ class Layer {
         }
     }
     
-    // Calcula os deltas para camadas escondidas
+    // Calcula Gradientes para neuronios das camadas escondidas
     func calculateDeltasForHiddenLayer(nextLayer: Layer) {
         for (index, neuron) in neurons.enumerated() {
             let nextWeights = nextLayer.neurons.map { $0.weights[index] }

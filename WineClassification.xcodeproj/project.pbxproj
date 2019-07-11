@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -70,7 +70,6 @@
 				56A9C123E20DC640C5A1BC41 /* Pods-WineClassification.debug.xcconfig */,
 				A38CDC8B5DFD45505BDED899 /* Pods-WineClassification.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -109,13 +108,13 @@
 			isa = PBXGroup;
 			children = (
 				E74CF58922C40FC700468A57 /* NeuralNetwork */,
-				E7C5861A22C1C1A50075ECD0 /* training.txt */,
+				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
 				E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */,
 				E7C5860622C1B3A40075ECD0 /* ViewController.swift */,
-				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
 				E7C5860822C1B3A40075ECD0 /* Main.storyboard */,
 				E7C5860B22C1B3A60075ECD0 /* Assets.xcassets */,
 				E7C5860D22C1B3A60075ECD0 /* LaunchScreen.storyboard */,
+				E7C5861A22C1C1A50075ECD0 /* training.txt */,
 				E7C5861022C1B3A60075ECD0 /* Info.plist */,
 			);
 			path = WineClassification;

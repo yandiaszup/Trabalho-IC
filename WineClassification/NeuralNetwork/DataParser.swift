@@ -12,6 +12,7 @@ class DataParser {
     
     var minMax = [(Double,Double)]()
     
+    
     func parseData() -> [[Double]]? {
         let path = Bundle.main.path(forResource: "training", ofType: "txt") ?? ""
         
@@ -36,6 +37,7 @@ class DataParser {
         }
     }
     
+    //Normaliza os valores do conjunto de dados
     func normalize(dataSet: [[Double]]) -> [[Double]] {
         
         var normalizedDataSet = dataSet
@@ -61,11 +63,13 @@ class DataParser {
         return normalizedDataSet
     }
     
+    //Normaliza um valor
     func normalizedValue(value: Double, maxValue: Double, minValue: Double) -> Double {
         let normalizedValue = (value - minValue)/(maxValue-minValue)
         return normalizedValue
     }
     
+    //pega o valor maximo e minimo
     func takeMinAndMaxValues(sequence: [Double]) -> (Double,Double) {
         var maxValue = sequence[0]
         var minValue = sequence[0]

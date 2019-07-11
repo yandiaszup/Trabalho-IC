@@ -37,9 +37,9 @@ class ViewController: UIViewController {
     }
     
     func updateTrainingResultsLabel() {
-        trainingResultsLabel.text = "BackPropagation With Momentum Results:\n\nNumber of Cicles: \(trainingResults.0.numberOfCicles ?? 0)\nNumber of Epochs: \(trainingResults.0.numberOfEpochs ?? 0)\nEQM: \(trainingResults.0.finalEQM ?? 0.0)\nTraining Time: \(trainingResults.0.trainingTime ?? 0.0)"
+        trainingResultsLabel.text = "BackPropagation With Momentum Results:\n\nNumber of Cicles: \(trainingResults.0.numberOfCicles ?? 0)\nNumber of Epochs: \(trainingResults.0.numberOfEpochs ?? 0)\nEQM Final: \(trainingResults.0.finalEQM ?? 0.0)\nTraining Time: \(trainingResults.0.trainingTime ?? 0.0)\nSuccess rate: \(String(format: "%.3f",trainingResults.0.successRate))"
         
-        trainingResultsNoMomentumLabel.text = "BackPropagation Without Momentum Results:\n\nNumber of Cicles: \(trainingResults.1.numberOfCicles ?? 0)\nNumber of Epochs: \(trainingResults.1.numberOfEpochs ?? 0)\nEQM: \(trainingResults.1.finalEQM ?? 0.0)\nTraining Time: \(trainingResults.1.trainingTime ?? 0.0)"
+        trainingResultsNoMomentumLabel.text = "BackPropagation Without Momentum Results:\n\nNumber of Cicles: \(trainingResults.1.numberOfCicles ?? 0)\nNumber of Epochs: \(trainingResults.1.numberOfEpochs ?? 0)\nEQM Final: \(trainingResults.1.finalEQM ?? 0.0)\nTraining Time: \(trainingResults.1.trainingTime ?? 0.0)\nSuccess rate: \(String(format: "%.3f",trainingResults.1.successRate))"
         
     }
     
@@ -84,7 +84,6 @@ class ViewController: UIViewController {
         data.addDataSet(line2)
         chart.data = data
         
-        chart.chartDescription?.text = "My awesome chart"
 
     }
 }
