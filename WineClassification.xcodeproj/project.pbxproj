@@ -41,7 +41,7 @@
 		E7C5861022C1B3A60075ECD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7C5861A22C1C1A50075ECD0 /* training.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = training.txt; sourceTree = "<group>"; };
 		E7C5861C22C29D570075ECD0 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
-		E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineClassificator.swift; sourceTree = "<group>"; };
+		E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WineClassificator.swift; path = ../WineClassificator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +81,7 @@
 				E74CF58022C3F0E900468A57 /* Functions.swift */,
 				E74CF58222C3F0EA00468A57 /* Layer.swift */,
 				E74CF58322C3F0EA00468A57 /* Network.swift */,
+				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
 				E74CF57F22C3F0E900468A57 /* Neuron.swift */,
 			);
 			path = NeuralNetwork;
@@ -108,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				E74CF58922C40FC700468A57 /* NeuralNetwork */,
-				E7C5861E22C3B2340075ECD0 /* WineClassificator.swift */,
 				E7C5860422C1B3A40075ECD0 /* AppDelegate.swift */,
 				E7C5860622C1B3A40075ECD0 /* ViewController.swift */,
 				E7C5860822C1B3A40075ECD0 /* Main.storyboard */,
